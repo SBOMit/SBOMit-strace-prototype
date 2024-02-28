@@ -1,0 +1,116 @@
+{
+ "signatures": [
+  {
+   "keyid": "fb2e2fdeec55da696f7824780fd9d87105d47c5ae5efe6c4b5be9ed9c8e5ae9e",
+   "sig": "58e340c0b4f37bd3c7753c90620928fe851b349add0bac3d4f9a7e10521f2ffeca7b2689ad2b6abc65f47cd1bd2a455bc11c1730e81af5e27ac019da1b7a8e27f8691e810c5ff5bfc19cd1d5885d374f7fb34d451218d9ec37bd48596f6ecb5da76dfdfb91bb87ad80e2fce0a336e74acd8c2c8aa751ff709c8c01375ffd39c547679442b814a33ea260b3ca47f2cd742e41d43370d5e3d1ce2cca2303274d2b0ee9e5ca672bd1d4fd988d89930893feea6440d2cc2e32662b1d9b5b110151eb18c0477d482566c252dca4d376f3929ed3f79d918a64441984ceb199d5e841e4e6eb12f1025c703ecf0cb92b762a3e7f022d9796643b2fe777bf0dfee8adef6b"
+  }
+ ],
+ "signed": {
+  "_type": "link",
+  "byproducts": {
+   "return-value": 1,
+   "stderr": "",
+   "stdout": ""
+  },
+  "command": [
+   "go",
+   "build"
+  ],
+  "environment": {},
+  "materials": {
+   "/home/dennis/go/pkg/mod/cache/download/github.com/bobg/errors/@v/v1.0.0.mod": {
+    "sha256": "94342ef1035cf1ea96adeb9ebac7b23f5c81bcfb0db170f272bb92c83361ad2e"
+   },
+   "/home/dennis/go/pkg/mod/cache/download/github.com/bobg/go-generics/v3/@v/v3.4.0.mod": {
+    "sha256": "721ef19426058939974f77d721498b57a738177dae3be050ae7f6f6e447dcacb"
+   },
+   "/home/dennis/go/pkg/mod/cache/download/golang.org/x/mod/@v/v0.15.0.mod": {
+    "sha256": "5c4ac0310a25330757039ccf3a98e75fefdbcb7d444ddd049230003a44945bde"
+   },
+   "/home/dennis/go/pkg/mod/cache/download/golang.org/x/tools/@v/v0.18.0.mod": {
+    "sha256": "e746decb58e48467787d3016782f23a49ebb61e3f80532c4e6c12c5316978d5e"
+   },
+   "/home/dennis/go/pkg/mod/github.com/bobg/errors@v1.0.0/go.mod": {
+    "sha256": "94342ef1035cf1ea96adeb9ebac7b23f5c81bcfb0db170f272bb92c83361ad2e"
+   },
+   "/home/dennis/go/pkg/mod/github.com/bobg/go-generics/v3@v3.4.0/go.mod": {
+    "sha256": "721ef19426058939974f77d721498b57a738177dae3be050ae7f6f6e447dcacb"
+   },
+   "/home/dennis/go/pkg/mod/golang.org/x/mod@v0.15.0/go.mod": {
+    "sha256": "5c4ac0310a25330757039ccf3a98e75fefdbcb7d444ddd049230003a44945bde"
+   },
+   "/home/dennis/go/pkg/mod/golang.org/x/tools@v0.18.0/go.mod": {
+    "sha256": "e746decb58e48467787d3016782f23a49ebb61e3f80532c4e6c12c5316978d5e"
+   }
+  },
+  "name": "build",
+  "products": {
+   "decouple/.github/workflows/go.yml": {
+    "sha256": "e871145c41695a1bf69d581f399400490ac18b3ece80b21321af95b525a479c5"
+   },
+   "decouple/.gitignore": {
+    "sha256": "901eac274ef06423a7bff8d7bf40b6da6ba47cede79567ac05421724906e795f"
+   },
+   "decouple/LICENSE": {
+    "sha256": "85bb979d88c766425ab2a1006c6a71f2355066f8800788db63f825501d4bbc6b"
+   },
+   "decouple/Readme.md": {
+    "sha256": "473591b51e143e237f6315678b0151cd1d11e172b21a7bcd7935d99111c75a02"
+   },
+   "decouple/_testdata/foo.go": {
+    "sha256": "0605d380aec5d3a4efc3acab32dc8578cf03feb3037329b93c858fc453800c24"
+   },
+   "decouple/_testdata/go.mod": {
+    "sha256": "a5bd6b702866388f3fb0ca5c0c6e8500c42a107a739c905d5ddd00223a0f8e88"
+   },
+   "decouple/cmd/decouple/decouple": {
+    "sha256": "9ea555c6ac4c4ac05f01bf67345783acdeb899b039cf2afa019007bc317fa0c8"
+   },
+   "decouple/cmd/decouple/decouple_test.go": {
+    "sha256": "b598f731d1d6ff189ffc9ed0942d13a24bacac8244fbb9f69b414e9c3a109fb8"
+   },
+   "decouple/cmd/decouple/main.go": {
+    "sha256": "a63a71f10f2e512afbf70ade4cf20e52d62276d5d6c81a37d17b576406d66498"
+   },
+   "decouple/debug.go": {
+    "sha256": "e25e6165d3d6a59af5081ebda51a2901ccf1d33ba21ac0905be95bb6980ea662"
+   },
+   "decouple/debug_test.go": {
+    "sha256": "4247ca806b1acc0bd052551c121e2efd78a68a6fff8d612b2ad70b56f07a2e58"
+   },
+   "decouple/decouple-sbom.json": {
+    "sha256": "52622b5bbe0b97dd59a3f46001fbf32ba72270908f432537e51258d0b1f4f998"
+   },
+   "decouple/decouple-strace.txt": {
+    "sha256": "1809d90e1c6d9af98de30b27f53328880a8f8742cd1845f3a5f99abf18bf4581"
+   },
+   "decouple/decouple.go": {
+    "sha256": "976f2536e5fec548d0109987ba409d8325320c3cc009579a8189e32db45450a3"
+   },
+   "decouple/decouple_test.go": {
+    "sha256": "052983c35eb7364327005374b0fa4dd686418f73c2901304fc4eff0255e7f13f"
+   },
+   "decouple/doc.go": {
+    "sha256": "b118284d457f1115e24e6478fa126aca51f4677a98b4244ec3ce4d2cbe49a931"
+   },
+   "decouple/errf_test.go": {
+    "sha256": "7a82f6c19c87af0d0dc9e65d227b3ac5822f37dd74951a8d47edd4bfe4da8f76"
+   },
+   "decouple/error.go": {
+    "sha256": "2ca51de6ec548c58f2c328156cdc797a644315e8ca7ae11d9a1ffacadf7b1e25"
+   },
+   "decouple/go.mod": {
+    "sha256": "978853e019a185ad8a1d6bc9ea464c45a57706c8cd11a1be028674d45ed94adb"
+   },
+   "decouple/go.sum": {
+    "sha256": "f82e1b2abc90a49b4b7472f271c64b844712b9bf3e2a038f9bf5b301695ba17a"
+   },
+   "decouple/types.go": {
+    "sha256": "de080b815857b3e8336d7017cfc8997844dc618543f81e3cadac48c09764286b"
+   },
+   "decouple/types_test.go": {
+    "sha256": "b68e643788dc26ecbf33071b7748ecd099842210a026d2c191c0fad3f920fdac"
+   }
+  }
+ }
+}

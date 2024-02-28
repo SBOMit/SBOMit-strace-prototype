@@ -1,0 +1,8 @@
+/go/pkg/mod/cache/download/github.com/bobg/errors/@v/v1.0.0.mod
+/go/pkg/mod/cache/download/github.com/bobg/go-generics/v3/@v/v3.4.0.mod
+/go/pkg/mod/cache/download/golang.org/x/mod/@v/v0.15.0.mod
+/go/pkg/mod/cache/download/golang.org/x/tools/@v/v0.18.0.mod
+/go/pkg/mod/github.com/bobg/errors@v1.0.0/go.mod
+/go/pkg/mod/github.com/bobg/go-generics/v3@v3.4.0/go.mod
+/go/pkg/mod/golang.org/x/mod@v0.15.0/go.mod
+/go/pkg/mod/golang.org/x/tools@v0.18.0/go.mod

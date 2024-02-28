@@ -1,22 +1,37 @@
 #!/bin/bash
 
-while getopts "p:k:d:" opt; do
+while getopts "i:k:d:p:" opt; do
   case $opt in
-    p) inputFile=$OPTARG ;;
+    i) inputFile=$OPTARG ;;
     k) signingKey=$OPTARG ;;
     d) outputDir=$OPTARG ;;
-    *) echo "Usage: $0 -p <input_file> -k <signing_key> -d <output_dir>"; exit 1 ;;
+    p) productPath=$OPTARG ;;  # New option for product path
+    *) echo "Usage: $0 -i <input_file> -k <signing_key> -d <output_dir> -p <product_path>"; exit 1 ;;
   esac
 done
 
-if [ -z "$inputFile" ] || [ -z "$signingKey" ] || [ -z "$outputDir" ]; then
+# Check for missing required arguments
+if [ -z "$inputFile" ] || [ -z "$signingKey" ] || [ -z "$outputDir" ] || [ -z "$productPath" ]; then
   echo "Missing required arguments"
-  echo "Usage: $0 -p <input_file> -k <signing_key> -d <output_dir>"
+  echo "Usage: $0 -i <input_file> -k <signing_key> -d <output_dir> -p <product_path>"
   exit 1
 fi
 
+# Initialize an array to hold all file paths
+declare -a filePaths
+
 while IFS= read -r filePath; do
     fullPath="$HOME$filePath"
-    stepPerformed="validate$(echo "$filePath" | sed 's/\//-/g')"
-    in-toto-run -m "$fullPath" -n "$stepPerformed" --signing-key "$signingKey" -d "$outputDir" -- cat "$fullPath"
+    # Add the full path to the filePaths array
+    filePaths+=("$fullPath")
 done < "$inputFile"
+
+# Convert the filePaths array to a space-separated string
+materialPaths="${filePaths[*]}"
+
+# Define the step name as "build"
+stepPerformed="build"
+
+# Run in-toto-run with all file paths, product path, and "go build" as the command
+in-toto-run -m $materialPaths -n "$stepPerformed" --signing-key "$signingKey" -d "$outputDir" -p "$productPath" -- go build
+
