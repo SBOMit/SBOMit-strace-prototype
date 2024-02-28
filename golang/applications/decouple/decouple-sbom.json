@@ -1,0 +1,205 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:8060b7d6-fcc1-4925-b1fe-23e15b7fe08b",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2024-02-22T01:23:05.904Z",
+    "tools": {
+      "components": [
+        {
+          "group": "@cyclonedx",
+          "name": "cdxgen",
+          "version": "9.9.0",
+          "purl": "pkg:npm/%40cyclonedx/cdxgen@9.9.0",
+          "type": "application",
+          "bom-ref": "pkg:npm/@cyclonedx/cdxgen@9.9.0",
+          "author": "OWASP Foundation",
+          "publisher": "OWASP Foundation"
+        }
+      ]
+    },
+    "authors": [
+      {
+        "name": "OWASP Foundation"
+      }
+    ],
+    "component": {
+      "group": "",
+      "name": "m",
+      "version": "",
+      "purl": "pkg:golang/m",
+      "bom-ref": "pkg:golang/m",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "SrcGoMod",
+          "value": "/home/dennis/Documents/SBOMit/syscalls-to-in-toto/golang/decouple/_testdata/go.mod"
+        },
+        {
+          "name": "ModuleGoVersion",
+          "value": "1.19"
+        }
+      ],
+      "type": "application"
+    }
+  },
+  "components": [
+    {
+      "group": "",
+      "name": "github.com/bobg/errors",
+      "version": "v1.0.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "438efbe6a059a67b5eec418526a9af9e5075538a642355e6537ab1a9da7b65c7"
+        }
+      ],
+      "purl": "pkg:golang/github.com%2Fbobg%2Ferrors@v1.0.0",
+      "type": "library",
+      "bom-ref": "pkg:golang/github.com/bobg/errors@v1.0.0",
+      "properties": [
+        {
+          "name": "SrcGoMod",
+          "value": "/home/dennis/go/pkg/mod/cache/download/github.com/bobg/errors/@v/v1.0.0.mod"
+        },
+        {
+          "name": "ModuleGoVersion",
+          "value": "1.21"
+        }
+      ]
+    },
+    {
+      "group": "",
+      "name": "github.com/bobg/go-generics/v3",
+      "version": "v3.4.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "802b079e7473f3cce95e976c58fc839a3835b5840f9a96d441b338316f33f497"
+        }
+      ],
+      "purl": "pkg:golang/github.com%2Fbobg%2Fgo-generics%2Fv3@v3.4.0",
+      "type": "library",
+      "bom-ref": "pkg:golang/github.com/bobg/go-generics/v3@v3.4.0",
+      "properties": [
+        {
+          "name": "SrcGoMod",
+          "value": "/home/dennis/go/pkg/mod/cache/download/github.com/bobg/go-generics/v3/@v/v3.4.0.mod"
+        },
+        {
+          "name": "ModuleGoVersion",
+          "value": "1.22"
+        }
+      ]
+    },
+    {
+      "group": "",
+      "name": "golang.org/x/tools",
+      "version": "v0.18.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "18bec1e02c1c2cb7a8e7dcb1ffd5165ae34e5b59f7559e1fe5ac567cc2fb2dc8"
+        }
+      ],
+      "purl": "pkg:golang/golang.org%2Fx%2Ftools@v0.18.0",
+      "type": "library",
+      "bom-ref": "pkg:golang/golang.org/x/tools@v0.18.0",
+      "properties": [
+        {
+          "name": "SrcGoMod",
+          "value": "/home/dennis/go/pkg/mod/cache/download/golang.org/x/tools/@v/v0.18.0.mod"
+        },
+        {
+          "name": "ModuleGoVersion",
+          "value": "1.18"
+        }
+      ]
+    },
+    {
+      "group": "",
+      "name": "golang.org/x/mod",
+      "version": "v0.15.0",
+      "scope": "optional",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8536e606c3badbe7b29496e752d136306254c84ed05a4e3152a3c5ad1809fbb7"
+        }
+      ],
+      "purl": "pkg:golang/golang.org%2Fx%2Fmod@v0.15.0",
+      "type": "library",
+      "bom-ref": "pkg:golang/golang.org/x/mod@v0.15.0",
+      "properties": [
+        {
+          "name": "SrcGoMod",
+          "value": "/home/dennis/go/pkg/mod/cache/download/golang.org/x/mod/@v/v0.15.0.mod"
+        },
+        {
+          "name": "ModuleGoVersion",
+          "value": "1.18"
+        }
+      ]
+    },
+    {
+      "group": "",
+      "name": "github.com/bobg/decouple",
+      "version": "",
+      "purl": "pkg:golang/github.com%2Fbobg%2Fdecouple",
+      "type": "library",
+      "bom-ref": "pkg:golang/github.com/bobg/decouple",
+      "evidence": {
+        "identity": {
+          "field": "purl",
+          "confidence": 1,
+          "methods": [
+            {
+              "technique": "manifest-analysis",
+              "confidence": 1,
+              "value": "/home/dennis/Documents/SBOMit/syscalls-to-in-toto/golang/decouple/go.mod"
+            }
+          ]
+        }
+      },
+      "properties": [
+        {
+          "name": "SrcFile",
+          "value": "/home/dennis/Documents/SBOMit/syscalls-to-in-toto/golang/decouple/go.mod"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:golang/github.com/bobg/decouple",
+      "dependsOn": [
+        "pkg:golang/github.com/bobg/errors@v1.0.0",
+        "pkg:golang/github.com/bobg/go-generics/v3@v3.4.0",
+        "pkg:golang/golang.org/x/mod@v0.15.0",
+        "pkg:golang/golang.org/x/tools@v0.18.0"
+      ]
+    },
+    {
+      "ref": "pkg:golang/github.com/bobg/errors@v1.0.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:golang/github.com/bobg/go-generics/v3@v3.4.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:golang/golang.org/x/mod@v0.15.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:golang/golang.org/x/tools@v0.18.0",
+      "dependsOn": [
+        "pkg:golang/golang.org/x/mod@v0.15.0"
+      ]
+    }
+  ]
+}
