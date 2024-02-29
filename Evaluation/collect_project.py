@@ -1,15 +1,28 @@
 import requests
 from bs4 import BeautifulSoup
 import subprocess
+import os
 
-# URL of the Awesome Go GitHub page
+# URL of the Awesome GitHub page
 url = "https://github.com/avelino/awesome-go"
 
 # Categories to scrape
 categories = ["Artificial Intelligence", "Audio and Music", "Authentication and OAuth"]
 
-def clone_repo(repo_url):
+# def clone_repo(repo_url):
+#     subprocess.run(["git", "clone", repo_url])
+
+def clone_repo(repo_url, output_path):
+    # Ensure the output path exists
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+    # Change the current working directory to the output path
+    os.chdir(output_path)
     subprocess.run(["git", "clone", repo_url])
+    # Change back to the original working directory
+    os.chdir('..')
+
+output_path = 'cloned_go_projects'
 
 def get_repo_urls(html_content, category):
     soup = BeautifulSoup(html_content, 'html.parser')
@@ -17,7 +30,6 @@ def get_repo_urls(html_content, category):
     repo_urls = set()
     
     for sibling in category_section.find_all_next():
-        print(sibling)
         if sibling.name == "h2":
             break
         for a in sibling.find_all('a', href=True):
@@ -26,7 +38,7 @@ def get_repo_urls(html_content, category):
                 repo_urls.add(href)
     return repo_urls
 
-# Fetch the Awesome Go README page
+# Fetch the Awesome README page
 response = requests.get(url)
 if response.status_code == 200:
     for category in categories:
@@ -35,8 +47,8 @@ if response.status_code == 200:
         print(repo_urls)
         for repo_url in repo_urls:
             print(f"Cloning {repo_url}")
-            clone_repo(repo_url)
+            clone_repo(repo_url, output_path)
 else:
-    print("Failed to fetch the Awesome Go README page")
+    print("Failed to fetch the Awesome README page")
 
 
