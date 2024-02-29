@@ -51,6 +51,13 @@ for project in */ ; do
         continue
     fi
 
+    if [ ! -f "$sbom_file" ]; then
+        echo "SBOM file not generated for $project, deleting project and skipping..."
+        cd ..
+        rm -rf "$project"
+        continue
+    fi
+
     cd ..  # Go back to the projects folder
 done
 
