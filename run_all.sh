@@ -68,17 +68,23 @@ for projectDir in */ ; do
     uniq |
     sed 's/!/\\!/g' > "$tmp_file"
 
-    # Process each line
-    while IFS= read -r line; do
+    # Check if the tmp_file is empty
+    if [ ! -s "$tmp_file" ]; then
+        # The tmp_file is empty, so just ensure outputFile is created
+        touch "$absoluteOutputPath/$outputFile"
+    else
+        # Process each line since tmp_file is not empty
+        while IFS= read -r line; do
 
-        # Capitalize the letter following "\!"
-        modifiedLine=$(echo "$line" | sed -r 's/(\\!)([a-z])/\1\u\2/g' | \
-        sed 's/\\!//g')
+            # Capitalize the letter following "\!" and remove "\!"
+            modifiedLine=$(echo "$line" | sed -r 's/(\\!)([a-z])/\1\u\2/g' | \
+            sed 's/\\!//g')
 
-        # Append the modified line to the outputFile
-        echo "$modifiedLine" >> "$absoluteOutputPath/$outputFile"
+            # Append the modified line to the outputFile
+            echo "$modifiedLine" >> "$absoluteOutputPath/$outputFile"
 
-    done < "$tmp_file"
+        done < "$tmp_file"
+    fi
 
     rm -f $tmp_file
 
