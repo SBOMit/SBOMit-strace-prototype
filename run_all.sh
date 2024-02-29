@@ -50,15 +50,37 @@ for projectDir in */ ; do
 
     outputFile="${projectName}-pkg.txt"  # Construct the output file name
 
+    tmp_file="$(mktemp)"
+
+    echo "Temporary file path: $tmp_file"
+
     # Process the file and output the results
     grep -e '/go/pkg/mod' -e 'openat' -e '@v' -e '.mod' "$absoluteOutputPath/$projectName-strace.txt" | 
     awk '/\/go\/pkg\/mod/ && /openat/ && /@v/ && /\.mod/' | 
     grep -oP '/go/pkg[^"]*' | 
-    sed 's/.*\(\/go\/pkg[^"]*\).*/\1/' | 
+    sed 's/.*\(\/go\/pkg[^"]*\).*/\1/' |
     grep '\.mod$' | 
+    sed -e 's#/go/pkg/mod/cache/download/##' \
+    -e 's#/go/pkg/mod/##' \
+    -e 's#/@v/v\([^/]*\)\.mod#@v\1#' \
+    -e 's#/go\.mod##' |
     sort | 
     uniq |
-    sed 's/!/\\!/g' > "$absoluteOutputPath/$outputFile"
+    sed 's/!/\\!/g' > "$tmp_file"
+
+    # Process each line
+    while IFS= read -r line; do
+
+        # Capitalize the letter following "\!"
+        modifiedLine=$(echo "$line" | sed -r 's/(\\!)([a-z])/\1\u\2/g' | \
+        sed 's/\\!//g')
+
+        # Append the modified line to the outputFile
+        echo "$modifiedLine" >> "$absoluteOutputPath/$outputFile"
+
+    done < "$tmp_file"
+
+    rm -f $tmp_file
 
     echo "Output saved to $absoluteOutputPath/$outputFile"
 
