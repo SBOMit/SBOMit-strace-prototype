@@ -32,16 +32,16 @@ for projectDir in */ ; do
     projectName=$(basename "$projectDir")
     projectPath=$(realpath "$projectDir")
 
-    echo "Processing root of $projectName"
+    echo "--- Processing root of $projectName ---"
     # Run strace -f go build at the project root and output to the unique file
     cd "$projectPath" && strace -f go build "$projectPath" >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1
     
     cd - > /dev/null  # Go back to the projects folder without printing the working directory
-    
+
     # Loop through each subdirectory within the project directory
     find "$projectPath" -mindepth 1 -type d \( -name .git -o -name .github \) -prune -o -type d -print | while read subDir; do
         subDirName=$(basename "$subDir")
-        echo "Processing $projectName/$subDirName"
+        echo "- Processing $projectName/$subDirName"
 
         # Run strace -f go build in the subdirectory and output to the unique file
         cd "$subDir" && strace -f go build >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1
@@ -49,4 +49,4 @@ for projectDir in */ ; do
     done
 done
 
-echo "All projects processed."
+echo "--- All projects processed ---"
