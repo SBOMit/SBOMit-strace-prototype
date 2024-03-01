@@ -92,4 +92,4 @@ for projectDir in */ ; do
 
 done
 
-echo "--- All projects processed ---"
+echo "*** All projects processed ***"

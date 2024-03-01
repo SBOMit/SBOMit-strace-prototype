@@ -61,4 +61,4 @@ for project in */ ; do
     cd ..  # Go back to the projects folder
 done
 
-echo "All projects processed."
+echo "--- All projects processed ---"
