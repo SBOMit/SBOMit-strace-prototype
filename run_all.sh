@@ -52,8 +52,6 @@ for projectDir in */ ; do
 
     tmp_file="$(mktemp)"
 
-    echo "Temporary file path: $tmp_file"
-
     # Process the file and output the results
     grep -e '/go/pkg/mod' -e 'openat' -e '@v' -e '.mod' "$absoluteOutputPath/$projectName-strace.txt" | 
     awk '/\/go\/pkg\/mod/ && /openat/ && /@v/ && /\.mod/' | 
@@ -90,7 +88,7 @@ for projectDir in */ ; do
 
     echo "Output saved to $absoluteOutputPath/$outputFile"
 
-    rm -f "$absoluteOutputPath/$projectName-strace.txt"
+    # rm -f "$absoluteOutputPath/$projectName-strace.txt"
 
 done
 
