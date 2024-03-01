@@ -23,8 +23,10 @@ if [ -z "$sbom_folder" ] || [ -z "$pkg_folder" ]; then
 fi
 
 # Get sorted list of files in each folder
-sbom_files=($(find "$sbom_folder" -type f -name "*.json" | sort))
-pkg_files=($(find "$pkg_folder" -type f -name "*.txt" | sort))
+sbom_files=($(find "$sbom_folder" -type f -name "*.json" -print | awk -F/ '{print $(NF), $0}' | sed 's/-sbom.json//' | sort -k1,1 | cut -d' ' -f2-))
+
+pkg_files=($(find "$pkg_folder" -type f -name "*.txt" -print | awk -F/ '{print $(NF), $0}' | sed 's/-pkg.txt//' | sort -k1,1 | cut -d' ' -f2-))
+
 
 # Iterate over the indices of the arrays
 for ((i = 0; i < ${#sbom_files[@]}; i++)); do
