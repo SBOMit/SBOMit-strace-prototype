@@ -88,7 +88,7 @@ for projectDir in */ ; do
 
     echo "Output saved to $absoluteOutputPath/$outputFile"
 
-    # rm -f "$absoluteOutputPath/$projectName-strace.txt"
+    rm -f "$absoluteOutputPath/$projectName-strace.txt"
 
 done
 
