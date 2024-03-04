@@ -33,8 +33,8 @@ for projectDir in */ ; do
     projectPath=$(realpath "$projectDir")
 
     echo "--- Processing root of $projectName ---"
-    # Run strace -f go build at the project root and output to the unique file
-    cd "$projectPath" && strace -f go build "$projectPath" >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && go clean
+    # Run strace -f go get and go build at the project root and output to the unique file
+    cd "$projectPath" && strace -f go get >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && strace -f go build >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && go clean
     
     cd - > /dev/null  # Go back to the projects folder without printing the working directory
     
@@ -43,8 +43,8 @@ for projectDir in */ ; do
         subDirName=$(basename "$subDir")
         echo "- Processing subdirectory $subDirName"
 
-        # Run strace -f go build in the subdirectory and output to the unique file
-        cd "$subDir" && strace -f go build >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && go clean
+        # Run strace -f go get and go build in the subdirectory and output to the unique file
+        cd "$subDir" && strace -f go get >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && strace -f go build >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && go clean
         cd - > /dev/null  # Go back to the projects folder without printing the working directory
     done
 
