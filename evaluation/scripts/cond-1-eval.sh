@@ -27,8 +27,9 @@ if [ -z "$DIRECTORY" ]; then
     exit 1
 fi
 
-# Counter for empty files
+# Counter for empty files and non-empty files
 empty_count=0
+non_empty_count=0
 
 # Check if the specified directory exists
 if [ ! -d "$DIRECTORY" ]; then
@@ -40,16 +41,18 @@ fi
 for file in "$DIRECTORY"/*-pkg.txt; do
     # Check if file exists to handle the case where no files match the pattern
     if [ -e "$file" ]; then
-        # Check if file is empty
         if [ ! -s "$file" ]; then
-            # Output the name of the empty file
+            # File is empty
             echo "Empty file: $file"
-            # Increment the counter
             ((empty_count++))
+        else
+            # File contains something
+            echo "Non-empty file: $file"
+            ((non_empty_count++))
         fi
     fi
 done
 
-# Output the total number of empty -pkg.txt files
+# Output the total number of empty and non-empty -pkg.txt files
 echo "Total number of empty -pkg.txt files: $empty_count"
-
+echo "Total number of non-empty -pkg.txt files: $non_empty_count"
