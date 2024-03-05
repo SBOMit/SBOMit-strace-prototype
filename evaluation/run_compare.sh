@@ -68,7 +68,7 @@ done
 # Print out the totals
 echo "****************************************************************"
 echo "Total projects processed: $total_projects"
-echo "Total Condition 0 (SBOM = PKG): $condition_0"
-echo "Total Condition 1 (SBOM > PKG): $condition_1"
-echo "Total Condition 2 (SBOM < PKG): $condition_2"
+echo "Total Condition 0 (CDX tool = SBOMit-strace-prototype): $condition_0"
+echo "Total Condition 1 (CDX tool > SBOMit-strace-prototype): $condition_1"
+echo "Total Condition 2 (CDX tool < SBOMit-strace-prototype): $condition_2"
 echo "Total Condition 3 (Mismatched): $condition_3"
