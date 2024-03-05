@@ -1,4 +1,4 @@
-# syscall-pkg-attestation
+# SBOMit-strace-prototype
 This tool generates in-toto attestations for projects, with current support for Golang.
 
 ## Steps:
