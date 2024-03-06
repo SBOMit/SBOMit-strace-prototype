@@ -1,0 +1,72 @@
+----------------------------------------------------------------
+Processing project: bubbletea
+Processing SBOM file: ../cond-3-sboms/bubbletea-sbom.json
+Processing package file: ../cond-3-pkgs/bubbletea-pkg.txt
+Unique in BOM-Ref: {'tutorial'}
+Condition: 3
+----------------------------------------------------------------
+Processing project: carapace-bin
+Processing SBOM file: ../cond-3-sboms/carapace-bin-sbom.json
+Processing package file: ../cond-3-pkgs/carapace-bin-pkg.txt
+Unique in BOM-Ref: {'github.com/spf13/pflag@v1.0.5'}
+Condition: 3
+----------------------------------------------------------------
+Processing project: cosmos-sdk
+Processing SBOM file: ../cond-3-sboms/cosmos-sdk-sbom.json
+Processing package file: ../cond-3-pkgs/cosmos-sdk-pkg.txt
+Unique in BOM-Ref: {'cosmossdk.io/x/upgrade@v0.0.0-20230613133644-0a778132a60f', 'cosmossdk.io/x/slashing@v0.0.0-00010101000000-000000000000', 'cosmossdk.io/x/protocolpool', 'cosmossdk.io/errors', 'cosmossdk.io/depinject', 'cosmossdk.io/store/v2', 'cosmossdk.io/x/gov@v0.0.0-20230925135524-a1bc045b3190', 'cosmossdk.io/client/v2@v2.0.0-20230630094428-02b760776860', 'cosmossdk.io/x/gov@v0.0.0-20231113122742-912390d5fc4a', 'cosmossdk.io/x/bank@v0.0.0-00010101000000-000000000000', 'cosmossdk.io/x/auth@v0.0.0-00010101000000-000000000000', 'cosmossdk.io/x/evidence', 'cosmossdk.io/x/nft@v0.0.0-20230613133644-0a778132a60f', 'cosmossdk.io/log', 'cosmossdk.io/x/authz@v0.0.0-00010101000000-000000000000', 'cosmossdk.io/x/circuit', 'cosmossdk.io/x/evidence@v0.0.0-20230613133644-0a778132a60f', 'cosmossdk.io/x/group', 'cosmossdk.io/math', 'cosmossdk.io/x/feegrant', 'cosmossdk.io/x/mint', 'cosmossdk.io/core', 'cosmossdk.io/simapp@v0.0.0-20230309163709-87da587416ba', 'cosmossdk.io/x/authz', 'cosmossdk.io/orm', 'cosmossdk.io/x/bank', 'cosmossdk.io/x/upgrade', 'cosmossdk.io/x/tx', 'cosmossdk.io/simapp@v0.0.0-00010101000000-000000000000', 'cosmossdk.io/core@v0.12.1-0.20231114100755-569e3ff6a0d7', 'cosmossdk.io/x/auth', 'cosmossdk.io/x/feegrant@v0.0.0-20230613133644-0a778132a60f', 'cosmossdk.io/collections', 'cosmossdk.io/x/mint@v0.0.0-00010101000000-000000000000', 'cosmossdk.io/client/v2', 'cosmossdk.io/x/distribution@v0.0.0-20240227221813-a248d05f70f4', 'cosmossdk.io/tools/hubl', 'cosmossdk.io/x/staking@v0.0.0-00010101000000-000000000000', 'cosmossdk.io/x/staking', 'cosmossdk.io/x/distribution', 'cosmossdk.io/x/nft', 'cosmossdk.io/x/slashing', 'cosmossdk.io/x/params', 'cosmossdk.io/x/accounts@v0.0.0-20240104091155-b729e981f130', 'cosmossdk.io/x/accounts@v0.0.0-00010101000000-000000000000', 'cosmossdk.io/tools/confix', 'cosmossdk.io/x/accounts', 'cosmossdk.io/tools/cosmovisor', 'cosmossdk.io/x/gov', 'cosmossdk.io/tools/confix@v0.0.0-20230613133644-0a778132a60f', 'cosmossdk.io/api', 'cosmossdk.io/x/circuit@v0.0.0-20230613133644-0a778132a60f', 'cosmossdk.io/simapp', 'cosmossdk.io/x/group@v0.0.0-00010101000000-000000000000'}
+Condition: 3
+----------------------------------------------------------------
+Processing project: elvish
+Processing SBOM file: ../cond-3-sboms/elvish-sbom.json
+Processing package file: ../cond-3-pkgs/elvish-pkg.txt
+Unique in BOM-Ref: {'src.elv.sh@v0.19.2', 'src.elv.sh/website', 'src.elv.sh'}
+Condition: 3
+----------------------------------------------------------------
+Processing project: goConfig
+Processing SBOM file: ../cond-3-sboms/goConfig-sbom.json
+Processing package file: ../cond-3-pkgs/goConfig-pkg.txt
+Unique in BOM-Ref: {'crg.eti.br/go/config'}
+Condition: 3
+----------------------------------------------------------------
+Processing project: go-sarah
+Processing SBOM file: ../cond-3-sboms/go-sarah-sbom.json
+Processing package file: ../cond-3-pkgs/go-sarah-pkg.txt
+Unique in BOM-Ref: {'status', 'simple'}
+Condition: 3
+----------------------------------------------------------------
+Processing project: gossamer
+Processing SBOM file: ../cond-3-sboms/gossamer-sbom.json
+Processing package file: ../cond-3-pkgs/gossamer-pkg.txt
+Unique in BOM-Ref: {'github.com/tetratelabs/wazero@v1.1.0', 'github.com/centrifuge/go-substrate-rpc-client/v4@v4.1.0'}
+Condition: 3
+----------------------------------------------------------------
+Processing project: go-tgbot
+Processing SBOM file: ../cond-3-sboms/go-tgbot-sbom.json
+Processing package file: ../cond-3-pkgs/go-tgbot-pkg.txt
+Unique in BOM-Ref: {'github.com/go-openapi/runtime@e14965b7171054b0716bb9c08d653ac7871517ea', 'golang.org/x/time@6dc17368e09b0e8634d71cac8168d853e869a0c7', 'golang.org/x/text@88f656faf3f37f690df1a32515b479415e1a6769', 'github.com/go-openapi/spec@a4fa9574c7aa73b2fc54e251eb9524d0482bb592', 'github.com/go-openapi/swag@cf0bdb963811675a4d7e74901cefc7411a1df939', 'github.com/go-openapi/analysis@8ed83f2ea9f00f945516462951a288eaa68bf0d6', 'github.com/go-openapi/jsonreference@36d33bfe519efae5632669801b180bf1a245da3b', 'github.com/mattn/go-isatty@v0.0.3', 'github.com/mattn/go-colorable@v0.0.9', 'github.com/fatih/color@v1.5.0', 'github.com/go-openapi/jsonpointer@779f45308c19820f1a69e9a4cd965f496e0da10f', 'github.com/go-openapi/loads@c3e1ca4c0b6160cac10aeef7e8b425cc95b9c820', 'github.com/go-openapi/strfmt@610b6cacdcde6852f4de68998bd20ce1dac85b22', 'github.com/pkg/errors@v0.8.0', 'golang.org/x/sys@096928d58be70ff96328b9a13ab90a68f646398b', 'github.com/mitchellh/mapstructure@06020f85339e21b2478f756a78e295255ffa4d6a', 'gopkg.in/mgo.v2@3f83fa5005286a7fe593b055f0d7771a7dce4655', 'golang.org/x/net@c7086645de248775cbf2373cf5ca4d2fa664b8c1', 'github.com/PuerkitoBio/purell@v1.1.0', 'github.com/mailru/easyjson@32fa128f234d041f196a9f3e0fea5ac9772c08e1', 'github.com/PuerkitoBio/urlesc@de5bf2ad457846296e2031421a34e2568e304e35', 'github.com/go-openapi/validate@d509235108fcf6ab4913d2dcb3a2260c0db2108e', 'github.com/go-openapi/errors@03cfca65330da08a5a440053faf994a3c682b5bf', 'github.com/asaskevich/govalidator@v8'}
+Condition: 3
+----------------------------------------------------------------
+Processing project: hanu
+Processing SBOM file: ../cond-3-sboms/hanu-sbom.json
+Processing package file: ../cond-3-pkgs/hanu-pkg.txt
+Unique in BOM-Ref: {'github.com/sbstjn/allot@1f2349af5ccd74c1a8d8fe4d1bf688645b628321'}
+Condition: 3
+----------------------------------------------------------------
+Processing project: keto
+Processing SBOM file: ../cond-3-sboms/keto-sbom.json
+Processing package file: ../cond-3-pkgs/keto-pkg.txt
+Unique in BOM-Ref: {'github.com/opencontainers/runc@v1.1.9'}
+Condition: 3
+----------------------------------------------------------------
+Processing project: telego
+Processing SBOM file: ../cond-3-sboms/telego-sbom.json
+Processing package file: ../cond-3-pkgs/telego-pkg.txt
+Unique in BOM-Ref: {'generator'}
+Condition: 3
+****************************************************************
+Total projects processed: 11
+Total Condition 0 (CDX tool = SBOMit-strace-prototype): 0
+Total Condition 1 (CDX tool > SBOMit-strace-prototype): 0
+Total Condition 2 (CDX tool < SBOMit-strace-prototype): 0
+Total Condition 3 (Mismatched): 11
