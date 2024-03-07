@@ -49,6 +49,14 @@ for project in */ ; do
         cd ..
         rm -rf "$project"
         continue
+        
+    elif echo "$output" | grep -q "Manually parsing go.mod files. The resultant BOM would be incomplete."; then
+        echo "Error detected (incomplete BOM due to manual parsing of go.mod), deleting SBOM and $project, then skipping..."
+        # Delete the SBOM file if it exists
+        [ -f "$sbom_file" ] && rm -f "$sbom_file"
+        cd ..
+        rm -rf "$project"
+        continue
     fi
 
     if [ ! -f "$sbom_file" ]; then
