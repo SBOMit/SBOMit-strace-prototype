@@ -53,7 +53,8 @@ for projectDir in */ ; do
     tmp_file="$(mktemp)"
 
     # Process the file and output the results
-    grep -e '/go/pkg/mod' -e 'openat' -e '@v' -e '.mod' "$absoluteOutputPath/$projectName-strace.txt" | 
+    grep -v '/lookup/' "$absoluteOutputPath/$projectName-strace.txt" | grep -v '/cache/' |
+    grep -e '/go/pkg/mod' -e 'openat' -e '@v' -e '.mod' | 
     awk '/\/go\/pkg\/mod/ && /openat/ && /@v/ && /\.mod/' | 
     grep -oP '/go/pkg[^"]*' | 
     sed 's/.*\(\/go\/pkg[^"]*\).*/\1/' |
@@ -73,7 +74,6 @@ for projectDir in */ ; do
     else
         # Process each line since tmp_file is not empty
         while IFS= read -r line; do
-
             # Capitalize the letter following "\!" and remove "\!"
             modifiedLine=$(echo "$line" | sed -r 's/(\\!)([a-z])/\1\u\2/g' | \
             sed 's/\\!//g')
@@ -88,7 +88,7 @@ for projectDir in */ ; do
 
     echo "Output saved to $absoluteOutputPath/$outputFile"
 
-    rm -f "$absoluteOutputPath/$projectName-strace.txt"
+    # rm -f "$absoluteOutputPath/$projectName-strace.txt"
 
 done
 
