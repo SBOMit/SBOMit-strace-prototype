@@ -34,18 +34,33 @@ for projectDir in */ ; do
 
     echo "--- Processing root of $projectName ---"
     # Run strace -f go get and go build at the project root and output to the unique file
-    cd "$projectPath" && strace -f go get >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && strace -f go build >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && go clean
+    cd "$projectPath" && strace -f -e openat go mod tidy >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && strace -f -e openat go build ./... >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && go clean
     
     cd - > /dev/null  # Go back to the projects folder without printing the working directory
     
     # Loop through each subdirectory within the project directory
     find "$projectPath" -mindepth 1 -type d \( -name .git -o -name .github \) -prune -o -type d -print | while read subDir; do
         subDirName=$(basename "$subDir")
-        echo "- Processing subdirectory $subDirName"
 
-        # Run strace -f go get and go build in the subdirectory and output to the unique file
-        cd "$subDir" && strace -f go get >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && strace -f go build >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && go clean
-        cd - > /dev/null  # Go back to the projects folder without printing the working directory
+        # Skip subdirectories containing specific keywords
+        if [[ "$subDirName" =~ example|test|examples|tests ]]; then
+            echo "- Skipping subdirectory $subDirName"
+            continue
+        fi
+
+        # Check if the subdirectory contains a go.mod file
+        if [ -f "$subDir/go.mod" ]; then
+            echo "- Found go.mod in $subDirName, collecting syscalls"
+            # Change directory to the subdirectory and run the syscalls
+            (
+              cd "$subDir" && \
+              strace -f -e openat go mod tidy >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && \
+              strace -f -e openat go build ./... >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && \
+              go clean
+            )
+        fi
+
+        # The subshell ensures that the 'cd' doesn't affect the outer loop
     done
 
     outputFile="${projectName}-pkg.txt"  # Construct the output file name
@@ -53,14 +68,15 @@ for projectDir in */ ; do
     tmp_file="$(mktemp)"
 
     # Process the file and output the results
-    grep -v '/lookup/' "$absoluteOutputPath/$projectName-strace.txt" | grep -v '/cache/' |
-    grep -e '/go/pkg/mod' -e 'openat' -e '@v' -e '.mod' | 
+    grep -v '/cache/' "$absoluteOutputPath/$projectName-strace.txt" |
+    # grep -e '/go/pkg/mod' -e 'openat' -e '@v' -e '.mod' "$absoluteOutputPath/$projectName-strace.txt" | 
+    grep -e '/go/pkg/mod' -e 'openat' -e '@v' -e '.mod'| 
     awk '/\/go\/pkg\/mod/ && /openat/ && /@v/ && /\.mod/' | 
     grep -oP '/go/pkg[^"]*' | 
     sed 's/.*\(\/go\/pkg[^"]*\).*/\1/' |
     grep '\.mod$' | 
-    sed -e 's#/go/pkg/mod/cache/download/##' \
-    -e 's#/go/pkg/mod/##' \
+    # sed -e 's#/go/pkg/mod/cache/download/##' \
+    sed -e 's#/go/pkg/mod/##' \
     -e 's#/@v/v\([^/]*\)\.mod#@v\1#' \
     -e 's#/go\.mod##' |
     sort | 
