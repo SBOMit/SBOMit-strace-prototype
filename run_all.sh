@@ -40,8 +40,8 @@ for projectDir in */ ; do
 
     echo "--- Processing root of $projectName ---"
     # Run strace -f go get and go build at the project root and output to the unique file
-    cd "$projectPath" && strace -f -e openat go mod tidy >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && strace -f -e openat go build -o "$projectBinaryOutputPath/$projectName-OutBinary" >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1
-    
+    cd "$projectPath" && strace -f -e openat go mod tidy >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 ; strace -f -e openat go build -o "$projectBinaryOutputPath/$projectName-OutBinary" >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1
+
     cd - > /dev/null  # Go back to the projects folder without printing the working directory
     
     # Loop through each subdirectory within the project directory
@@ -58,7 +58,7 @@ for projectDir in */ ; do
         # Change directory to the subdirectory and run the syscalls
         (
           cd "$subDir" && \
-          strace -f -e openat go mod tidy >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && \
+          strace -f -e openat go mod tidy >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 ; \
           strace -f -e openat go build -o "$projectBinaryOutputPath/$subDirName-OutBinary" >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 \
           # go clean
         )
