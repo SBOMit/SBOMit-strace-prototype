@@ -54,17 +54,14 @@ for projectDir in */ ; do
             continue
         fi
 
-        # Check if the subdirectory contains a go.mod file
-        if [ -f "$subDir/go.mod" ] || [ -f "$subDir/main.go" ]; then
-            echo "- Found go.mod or main.go in $subDirName, collecting syscalls"
-            # Change directory to the subdirectory and run the syscalls
-            (
-              cd "$subDir" && \
-              strace -f -e openat go mod tidy >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && \
-              strace -f -e openat go build -o "$projectBinaryOutputPath/$subDirName-OutBinary" >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 \
-              # go clean
-            )
-        fi
+        echo "- Processing $subDirName, collecting syscalls"
+        # Change directory to the subdirectory and run the syscalls
+        (
+          cd "$subDir" && \
+          strace -f -e openat go mod tidy >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && \
+          strace -f -e openat go build -o "$projectBinaryOutputPath/$subDirName-OutBinary" >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 \
+          # go clean
+        )
 
         # The subshell ensures that the 'cd' doesn't affect the outer loop
     done
