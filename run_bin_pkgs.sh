@@ -26,8 +26,14 @@ mkdir -p "$outputPath"
 for folder in "$basePath"/*/; do
     folderName=$(basename "$folder")
     outputFile="$outputPath/${folderName}-bin-pkgs.txt"
+
+    echo "--- Processing project: $folderName ---"
+
+    # Ensure the output file is created even if the folder is empty
+    touch "$outputFile"
+
     tempFile=$(mktemp)  # Create a temporary file
-    
+
     # Iterate over each item in the folder
     for item in "$folder"/*; do
         if [ -f "$item" ]; then  # Ensure it is a file
@@ -41,6 +47,6 @@ for folder in "$basePath"/*/; do
     rm "$tempFile"  # Remove the temporary file
 done
 
-echo "Processing completed. Check the output files in $outputPath."
+echo "*** Processing completed. Check the output files in $outputPath. ***"
 
 
