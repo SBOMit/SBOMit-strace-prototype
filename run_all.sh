@@ -5,24 +5,27 @@ projectsFolder=""
 outputPath=""
 
 # Parse options
-while getopts "p:o:" opt; do
+while getopts "p:o:b:" opt; do
   case $opt in
     p) projectsFolder=$OPTARG ;;
     o) outputPath=$OPTARG ;;
+    b) binaryOutputPath=$OPTARG ;;
     *) echo "Usage: $0 -p <projects_folder> -o <output_path>"; exit 1 ;;
   esac
 done
 
 # Check if required options were provided
-if [ -z "$projectsFolder" ] || [ -z "$outputPath" ]; then
+if [ -z "$projectsFolder" ] || [ -z "$outputPath" ] || [ -z "$binaryOutputPath" ]; then
   echo "Missing required arguments"
-  echo "Usage: $0 -p <projects_folder> -o <output_path>"
+  echo "Usage: $0 -p <projects_folder> -o <output_path> -b <binary_output_path>"
   exit 1
 fi
 
 # Ensure the output directory exists
 mkdir -p "$outputPath"
+mkdir -p "$binaryOutputPath"
 absoluteOutputPath=$(realpath "$outputPath")
+absoluteBinaryOutputPath=$(realpath "$binaryOutputPath")
 
 # Navigate to the projects folder
 cd "$projectsFolder" || { echo "Failed to navigate to directory: $projectsFolder"; exit 1; }
@@ -31,10 +34,13 @@ cd "$projectsFolder" || { echo "Failed to navigate to directory: $projectsFolder
 for projectDir in */ ; do
     projectName=$(basename "$projectDir")
     projectPath=$(realpath "$projectDir")
+    projectBinaryOutputPath="$absoluteBinaryOutputPath/$projectName"
+
+    mkdir -p "$projectBinaryOutputPath"
 
     echo "--- Processing root of $projectName ---"
     # Run strace -f go get and go build at the project root and output to the unique file
-    cd "$projectPath" && strace -f -e openat go mod tidy >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && strace -f -e openat go build ./... >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && go clean
+    cd "$projectPath" && strace -f -e openat go mod tidy >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && strace -f -e openat go build -o "$projectBinaryOutputPath/$projectName-OutBinary" >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1
     
     cd - > /dev/null  # Go back to the projects folder without printing the working directory
     
@@ -49,14 +55,14 @@ for projectDir in */ ; do
         fi
 
         # Check if the subdirectory contains a go.mod file
-        if [ -f "$subDir/go.mod" ]; then
-            echo "- Found go.mod in $subDirName, collecting syscalls"
+        if [ -f "$subDir/go.mod" ] || [ -f "$subDir/main.go" ]; then
+            echo "- Found go.mod or main.go in $subDirName, collecting syscalls"
             # Change directory to the subdirectory and run the syscalls
             (
               cd "$subDir" && \
               strace -f -e openat go mod tidy >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && \
-              strace -f -e openat go build ./... >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 && \
-              go clean
+              strace -f -e openat go build -o "$projectBinaryOutputPath/$subDirName-OutBinary" >> "$absoluteOutputPath/$projectName-strace.txt" 2>&1 \
+              # go clean
             )
         fi
 
@@ -104,7 +110,7 @@ for projectDir in */ ; do
 
     echo "Output saved to $absoluteOutputPath/$outputFile"
 
-    # rm -f "$absoluteOutputPath/$projectName-strace.txt"
+    rm -f "$absoluteOutputPath/$projectName-strace.txt"
 
 done
 
