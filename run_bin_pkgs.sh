@@ -25,7 +25,7 @@ mkdir -p "$outputPath"
 # Iterate over each folder in the base directory
 for folder in "$basePath"/*/; do
     folderName=$(basename "$folder")
-    outputFile="$outputPath/${folderName}-bin-pkgs.txt"
+    outputFile="$outputPath/${folderName}-bin-pkg.txt"
 
     echo "--- Processing project: $folderName ---"
 
