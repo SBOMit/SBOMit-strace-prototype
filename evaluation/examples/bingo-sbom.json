@@ -1,0 +1,113 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:a3e2b9bb-885f-4dde-bab5-2016e42ab64f",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2024-03-07T20:11:57.230Z",
+    "tools": {
+      "components": [
+        {
+          "group": "@cyclonedx",
+          "name": "cdxgen",
+          "version": "9.9.0",
+          "purl": "pkg:npm/%40cyclonedx/cdxgen@9.9.0",
+          "type": "application",
+          "bom-ref": "pkg:npm/@cyclonedx/cdxgen@9.9.0",
+          "author": "OWASP Foundation",
+          "publisher": "OWASP Foundation"
+        }
+      ]
+    },
+    "authors": [
+      {
+        "name": "OWASP Foundation"
+      }
+    ],
+    "component": {
+      "group": "",
+      "name": "github.com/iancmcc/bingo",
+      "version": "",
+      "purl": "pkg:golang/github.com%2Fiancmcc%2Fbingo",
+      "bom-ref": "pkg:golang/github.com/iancmcc/bingo",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "SrcGoMod",
+          "value": "/home/dennis/Documents/SBOMit/Evaluation/eval_golang_projects/bingo/go.mod"
+        },
+        {
+          "name": "ModuleGoVersion",
+          "value": "1.17"
+        }
+      ],
+      "type": "application"
+    }
+  },
+  "components": [
+    {
+      "group": "",
+      "name": "github.com/goccy/go-reflect",
+      "version": "v1.1.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9f4a18667f15715d829164f18bc07d423902a2ae864ed08475f991eba62116d1"
+        }
+      ],
+      "purl": "pkg:golang/github.com%2Fgoccy%2Fgo-reflect@v1.1.0",
+      "type": "library",
+      "bom-ref": "pkg:golang/github.com/goccy/go-reflect@v1.1.0",
+      "properties": [
+        {
+          "name": "SrcGoMod",
+          "value": "/home/dennis/go/pkg/mod/cache/download/github.com/goccy/go-reflect/@v/v1.1.0.mod"
+        },
+        {
+          "name": "ModuleGoVersion",
+          "value": "1.12"
+        }
+      ]
+    },
+    {
+      "group": "",
+      "name": "github.com/iancmcc/bingo",
+      "version": "",
+      "purl": "pkg:golang/github.com%2Fiancmcc%2Fbingo",
+      "type": "library",
+      "bom-ref": "pkg:golang/github.com/iancmcc/bingo",
+      "evidence": {
+        "identity": {
+          "field": "purl",
+          "confidence": 1,
+          "methods": [
+            {
+              "technique": "manifest-analysis",
+              "confidence": 1,
+              "value": "/home/dennis/Documents/SBOMit/Evaluation/eval_golang_projects/bingo/go.mod"
+            }
+          ]
+        }
+      },
+      "properties": [
+        {
+          "name": "SrcFile",
+          "value": "/home/dennis/Documents/SBOMit/Evaluation/eval_golang_projects/bingo/go.mod"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:golang/github.com/goccy/go-reflect@v1.1.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:golang/github.com/iancmcc/bingo",
+      "dependsOn": [
+        "pkg:golang/github.com/goccy/go-reflect@v1.1.0"
+      ]
+    }
+  ]
+}
