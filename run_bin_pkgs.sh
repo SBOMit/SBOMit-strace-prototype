@@ -38,7 +38,7 @@ for folder in "$basePath"/*/; do
     for item in "$folder"/*; do
         if [ -f "$item" ]; then  # Ensure it is a file
             # Run strings, filter with grep, and use sed to modify the output, then append to the temporary file
-            strings "$item" | grep '@v' | sed -E 's|.*/go/pkg/mod/||; s|(@v[^/]*)/.*|\1|' >> "$tempFile"
+            strings "$item" | grep '/go/pkg/mod/.*@v' | sed -E 's|.*/go/pkg/mod/||; s|(@v[^/]*)/.*|\1|; s|!([a-z])|\U\1|g' >> "$tempFile"
         fi
     done
 
