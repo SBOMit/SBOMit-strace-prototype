@@ -40,4 +40,5 @@ bin_pkg_set = parse_txt_file_lines(bin_pkg_file_path)  # Reuse the function for 
 unique_set = bom_ref_set.union(pkg_set, bin_pkg_set)
 
 # Print the combined unique set
-print("Unique Combined Set:", unique_set)
+for item in unique_set:
+    print(item)
