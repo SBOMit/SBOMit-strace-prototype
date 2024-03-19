@@ -1,7 +1,23 @@
 #!/bin/bash
 
-# Directory containing build folders
-builds_dir="./eval-c-cpp-bins"
+# Initialize builds_dir with a default value (optional)
+builds_dir=""
+
+# Process command-line options
+while getopts ":b:" opt; do
+  case $opt in
+    b) builds_dir="$OPTARG"
+    ;;
+    \?) echo "Invalid option -$OPTARG" >&2
+    ;;
+  esac
+done
+
+# Check if builds_dir is not empty
+if [ -z "$builds_dir" ]; then
+    echo "You must specify a build directory with -b option."
+    exit 1
+fi
 
 # Loop through each subfolder in the build directory
 for folder in "$builds_dir"/*; do
@@ -17,4 +33,3 @@ for folder in "$builds_dir"/*; do
     fi
   fi
 done
-
