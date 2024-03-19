@@ -57,10 +57,10 @@ for project_path in "$projects_folder"/*; do
     build_command=""
     if [ -f "$project_path/CMakeLists.txt" ]; then
       echo "Using cmake to build $project_name"
-      (cd "$project_build_path"; strace -f cmake "$project_path" >> "$strace_output_file" 2>&1 && strace -f make -j4 >> "$strace_output_file" 2>&1)
+      (cd "$project_build_path"; strace -f -e openat cmake "$project_path" > "$strace_output_file" 2>&1 && strace -f -e openat make -j4 >> "$strace_output_file" 2>&1)
     else
       echo "Using make to build $project_name"
-      (cd "$project_build_path"; strace -f make "$project_path" -j4 > "$strace_output_file" 2>&1)
+      (cd "$project_build_path"; strace -f -e openat make "$project_path" -j4 > "$strace_output_file" 2>&1)
     fi
   fi
 done
