@@ -55,17 +55,19 @@ for project_path in "$projects_folder"/*; do
     pkg_output_file="$strace_output_folder/$project_name-pkg.txt"
     
     # Decide whether to use cmake or make based on the presence of CMakeLists.txt
-    # if [ -f "$project_path/CMakeLists.txt" ]; then
-    #   echo "Using cmake to build $project_name"
-    #   (cd "$project_build_path"; strace -f -e openat cmake "$project_path" > "$strace_output_file" 2>&1 && strace -f -e openat make -j4 >> "$strace_output_file" 2>&1)
-    # else
-    #   echo "Using make to build $project_name"
-    #   (cd "$project_build_path"; strace -f -e openat make "$project_path" -j4 > "$strace_output_file" 2>&1)
-    # fi
+    if [ -f "$project_path/CMakeLists.txt" ]; then
+      echo "Using cmake to build $project_name"
+      (cd "$project_build_path"; strace -f -e openat cmake "$project_path" > "$strace_output_file" 2>&1 && strace -f -e openat make -j4 >> "$strace_output_file" 2>&1)
+    else
+      echo "Using make to build $project_name"
+      (cd "$project_build_path"; strace -f -e openat make "$project_path" -j4 > "$strace_output_file" 2>&1)
+    fi
 
     # Filter lines containing ".so." and output to $project_name-pkg.txt
-    grep "\.so\." "$strace_output_file" > "$pkg_output_file"
-
+    grep "\.so\." "$strace_output_file" | 
+    grep -vE "\.cache|\.conf|\(No such file or directory\)" |
+    awk -F'"' '{print $(NF-1)}' | 
+    sort -u > "$pkg_output_file"
   fi
 done
 
