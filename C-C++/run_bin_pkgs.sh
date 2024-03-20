@@ -35,7 +35,7 @@ for folder in "$basePath"/*/; do
     # Use find to locate all .a, .so files, and executables in the current project folder
     find "$folder" \( -type f \( -name "*.a" -o -name "*.so" \) -o -type f -executable \) -print0 | while IFS= read -r -d $'\0' item; do
         # Run strings on each file
-        strings "$item" >> "$outputFile"
+        strings "$item" | grep "\.so\." >> "$outputFile"
     done
 
     # Optionally, you can sort and remove duplicates from "$outputFile" if needed
