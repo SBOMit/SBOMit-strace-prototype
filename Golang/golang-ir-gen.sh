@@ -57,7 +57,7 @@ while IFS= read -r line; do
         echo "$PACKAGE is already in go.mod, skipping..."
     else
         # Insert the new dependency just before the last line (which should be the closing parenthesis of the require block)
-        sed -i "/)$/i \    $PACKAGE $VERSION" "$GO_MOD_FILE"
+        sed -i "/^require (/a \    $PACKAGE $VERSION" "$GO_MOD_FILE"
         echo "Added $PACKAGE $VERSION"
     fi
 done < "$DEP_FILE"
