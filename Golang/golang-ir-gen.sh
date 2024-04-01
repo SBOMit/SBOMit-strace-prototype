@@ -44,7 +44,7 @@ echo "Processing dependencies..."
 
 while IFS= read -r line; do
     # Skip empty lines and lines not containing github.com or golang.org
-    if [[ -z "$line" ]] || [[ ! "$line" == *"github.com"* && ! "$line" == *"golang.org"* ]]; then
+    if [[ -z "$line" ]]; then
         continue
     fi
     
@@ -56,12 +56,8 @@ while IFS= read -r line; do
     if grep -q "$PACKAGE" "$GO_MOD_FILE"; then
         echo "$PACKAGE is already in go.mod, skipping..."
     else
-        # Check for indirect dependencies
-        if [[ "$line" == *"// indirect"* ]]; then
-            echo "require $PACKAGE $VERSION // indirect" >> "$GO_MOD_FILE"
-        else
-            echo "require $PACKAGE $VERSION" >> "$GO_MOD_FILE"
-        fi
+        # Insert the new dependency just before the last line (which should be the closing parenthesis of the require block)
+        sed -i "/)$/i \    $PACKAGE $VERSION" "$GO_MOD_FILE"
         echo "Added $PACKAGE $VERSION"
     fi
 done < "$DEP_FILE"
