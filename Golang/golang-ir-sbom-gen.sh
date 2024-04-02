@@ -43,47 +43,51 @@ PROJECT_NAME=$(basename "$OUTPUT_DIR")
 # Copy the original go.mod file to the output directory
 cp "$GO_MOD_FILE" "$OUTPUT_DIR/go.mod"
 
+# Extract replacements into a temp file
+TEMP_REPLACE=$(mktemp)
+grep 'replace' "$GO_MOD_FILE" | cut -d'>' -f2 | cut -d' ' -f2- > "$TEMP_REPLACE"
+
 # Add a new require block at the end of the copied go.mod file
 echo -e "\nsbomit_require (" >> "$OUTPUT_DIR/go.mod"
 echo ")" >> "$OUTPUT_DIR/go.mod"
 
-# Start processing the dependencies
 echo "Processing dependencies..."
 
 while IFS= read -r line; do
-    # Skip empty lines and lines not containing github.com or golang.org
-    if [[ -z "$line" ]]; then
+    if [ -z "$line" ]; then
         continue
     fi
 
-    # Extract the package name and version
     PACKAGE=$(echo "$line" | awk -F "@" '{print $1}')
     VERSION=$(echo "$line" | awk -F "@" '{print $2}')
 
-    # Skip if VERSION is empty
     if [ -z "$VERSION" ]; then
         echo "Skipping $PACKAGE, no version specified."
         continue
     fi
 
-    # Insert the new dependency into the new require block, before the last closing parenthesis
+    # Skip if PACKAGE is listed in the replacements temp file
+    if grep -q -F "$PACKAGE" "$TEMP_REPLACE"; then
+        echo "Skipping $PACKAGE as it is listed in a replace directive."
+        continue
+    fi
+
     sed -i "/^sbomit_require (/a \    $PACKAGE $VERSION" "$OUTPUT_DIR/go.mod"
     echo "Added $PACKAGE $VERSION to the new require block."
     
 done < "$DEP_FILE"
 
-# Replace 'sbomit_require' with 'require' in the copied go.mod file
 sed -i 's/sbomit_require/require/g' "$OUTPUT_DIR/go.mod"
 
 echo "New go.mod has been processed and saved to $OUTPUT_DIR."
 
-# Change to the output directory
 cd "$OUTPUT_DIR"
 
-# Run go mod download to fetch the modules
 go mod download
 
-# Generate SBOM using cdxgen
 cdxgen -t go.mod -o "${PROJECT_NAME}-sbom.json"
 
 echo "SBOM has been generated and saved as ${PROJECT_NAME}-sbom.json."
+
+# Cleanup the temp replacements file
+rm "$TEMP_REPLACE"
