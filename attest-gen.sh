@@ -17,17 +17,26 @@ if [ -z "$inputFile" ] || [ -z "$signingKey" ] || [ -z "$outputDir" ] || [ -z "$
   exit 1
 fi
 
+# Create the output directory if it does not exist
+mkdir -p "$outputDir"
+
 # Initialize an array to hold all file paths
 declare -a filePaths
 
+# Define additional path segments as variables
+MOD_PATH_SEGMENT="/go/pkg/mod/"
+GO_MOD_FILENAME="/go.mod"
+
 while IFS= read -r filePath; do
-    fullPath="$HOME$filePath"
+    fullPath="${HOME}${MOD_PATH_SEGMENT}${filePath}"
     # Add the full path to the filePaths array
     filePaths+=("$fullPath")
 done < "$inputFile"
 
 # Convert the filePaths array to a space-separated string
 materialPaths="${filePaths[*]}"
+
+# echo "$materialPaths"
 
 # Define the step name as "build"
 stepPerformed="build"
