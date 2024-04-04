@@ -48,7 +48,7 @@ done < "$inputFile"
 # Convert the filePaths array to a space-separated string
 materialPaths="${filePaths[*]}"
 
-echo "$materialPaths"
+# echo "$materialPaths"
 
 # Define the step name as "build"
 stepPerformed="build"
