@@ -73,7 +73,7 @@ while IFS= read -r line; do
     fi
 
     sed -i "/^sbomit_require (/a \    $PACKAGE $VERSION" "$OUTPUT_DIR/go.mod"
-    echo "Added $PACKAGE $VERSION to the new require block."
+    echo "Added $PACKAGE $VERSION to the SBOMit IR file."
     
 done < "$DEP_FILE"
 
