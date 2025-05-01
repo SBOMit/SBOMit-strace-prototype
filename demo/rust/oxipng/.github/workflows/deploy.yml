@@ -1,0 +1,133 @@
+name: deploy
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  deploy:
+    name: Deploy release
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    # Prevent job from running on forks
+    if: ${{ !github.event.repository.fork }}
+
+    strategy:
+      # Execute one job at a time to avoid potential race conditions in the
+      # GitHub release management APIs. See:
+      # https://github.com/softprops/action-gh-release/issues/445#issuecomment-2407940052
+      max-parallel: 1
+      matrix:
+        target:
+          - x86_64-unknown-linux-gnu
+          - x86_64-unknown-linux-musl
+          - aarch64-unknown-linux-gnu
+          - aarch64-unknown-linux-musl
+          - x86_64-pc-windows-msvc
+          - i686-pc-windows-msvc
+          - x86_64-apple-darwin
+          - aarch64-apple-darwin
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: nightly
+          cache-bin: false
+          cache-shared-key: cache
+
+      - name: Install cargo-deb
+        if: endsWith(matrix.target, '-linux-gnu')
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-deb
+
+      - name: Get the Oxipng version
+        id: oxipngMeta
+        run:
+          echo "version=$(cargo metadata --format-version 1 --no-deps | jq -r '.packages[] | select(.name == "oxipng").version')"
+          >> "$GITHUB_OUTPUT"
+
+      - name: Retrieve ${{ matrix.target }} binary
+        uses: dawidd6/action-download-artifact@v9
+        with:
+          workflow: oxipng.yml
+          commit: ${{ env.GITHUB_SHA }}
+          name: Oxipng binary (${{ matrix.target }})
+          path: target
+
+      - name: Generate up to date manual
+        run: scripts/manual.sh
+
+      - name: Build archives
+        working-directory: target
+        run: |
+          ARCHIVE_NAME="oxipng-${{ steps.oxipngMeta.outputs.version }}-${{ matrix.target }}"
+
+          mkdir "$ARCHIVE_NAME"
+          cp ../CHANGELOG.md ../README.md ../MANUAL.txt "$ARCHIVE_NAME"
+
+          case '${{ matrix.target }}' in
+            *-windows-*)
+              cp ../LICENSE "$ARCHIVE_NAME/LICENSE.txt"
+              cp oxipng.exe "$ARCHIVE_NAME"
+              zip "${ARCHIVE_NAME}.zip" "$ARCHIVE_NAME"/*;;
+            *)
+              cp ../LICENSE "$ARCHIVE_NAME"
+              cp oxipng "$ARCHIVE_NAME"
+              # Execute permissions are not stored in artifact files,
+              # so make the binary world-executable to meet user
+              # expectations set by preceding releases.
+              # Related issue:
+              # https://github.com/shssoichiro/oxipng/issues/575
+              chmod ugo+x "$ARCHIVE_NAME"/oxipng
+              tar -vczf "${ARCHIVE_NAME}.tar.gz" "$ARCHIVE_NAME"/*;;
+          esac
+
+      - name: Install AArch64 libc components
+        if: matrix.target == 'aarch64-unknown-linux-gnu'
+        run: |
+          sudo apt-get -yq update
+          # The shared libc AArch64 libraries are needed for cargo deb below
+          # to be able to infer package requirements with dpkg-shlibdeps
+          # properly
+          sudo apt-get -yq install libc6-arm64-cross libgcc-s1-arm64-cross
+
+      - name: Build Debian packages
+        if: endsWith(matrix.target, '-linux-gnu')
+        env:
+          # The *-arm64-cross packages above install AArch64 libraries in
+          # /usr/<arch>/lib instead of /usr/lib/<arch>, as expected by
+          # cargo-deb and dpkg-shlibdeps to find such shared libraries.
+          # Make both of them visible to such commands by adding that directory
+          # to the dynamic linker's library search path. See:
+          # - <https://man7.org/linux/man-pages/man1/dpkg-shlibdeps.1.html> ("Errors" section)
+          # - <https://github.com/kornelski/cargo-deb/issues/21>
+          LD_LIBRARY_PATH: /usr/aarch64-linux-gnu/lib
+        run: |
+          mkdir -p "target/${{ matrix.target }}/release"
+          mv target/oxipng "target/${{ matrix.target }}/release"
+          cargo deb --target "${{ matrix.target }}" --no-build --no-strip
+
+      - name: Create release notes
+        run: tail -n +3 CHANGELOG.md | sed -e '/^$/,$d' > RELEASE_NOTES.txt
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: v${{ steps.oxipngMeta.outputs.version }}
+          body_path: RELEASE_NOTES.txt
+          files: |
+            target/*.zip
+            target/*.tar.gz
+            target/${{ matrix.target }}/debian/*.deb

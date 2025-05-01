@@ -1,0 +1,6 @@
+target
+*.bk
+.DS_Store
+*.out.png
+/.idea
+/node_modules
